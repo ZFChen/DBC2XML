@@ -1,0 +1,341 @@
+VERSION ""
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_: NMNode CCPTester DigTester AC BCM GW PTG ESCL
+VAL_TABLE_ remote_control_status_type 1 "Remote control mode" 0 "Not Remote control mode" ;
+VAL_TABLE_ Air_distribution_mode_Type 7 "Invalid" 6 "Reserved" 5 "Reserved" 4 "Screen" 3 "Foot Screen" 2 "Foot" 1 "Foot face" 0 "Face" ;
+VAL_TABLE_ Air_Quality_Level 7 "Invalid" 6 "Reserved" 5 "Level 6" 4 "Level 5" 3 "Level 4" 2 "Level 3" 1 "Level 2" 0 "Level 1" ;
+VAL_TABLE_ Signal_Invalid_Type 1 "Invalid" 0 "Valid" ;
+VAL_TABLE_ AC_ACCompReq_Type 1 "AC Compress Req ON" 0 "AC Compress Req OFF" ;
+VAL_TABLE_ AC_SSM_StartReq 1 "Auto start request" 0 "No request" ;
+VAL_TABLE_ AC_SSM_Allowance_Type 1 "Prohibit engine auto stop" 0 "Allowance engine auto stop" ;
+VAL_TABLE_ AC_FanStatus_Type 1 "AC Fan is On" 0 "AC Fan is Off" ;
+VAL_TABLE_ PM25_Exceed_Type 1 "Exceed" 0 "Not exceed" ;
+VAL_TABLE_ PM25_Sensor_Status_Type 3 "Error" 2 "Complete" 1 "Collecting" 0 "Initial" ;
+
+
+BO_ 1024 NWM_MSG: 8 NMNode
+ SG_ NWM_RMR : 8|1@0+ (1,0) [0|1] "bit"  AC
+ SG_ NWM_NMSts : 16|1@0+ (1,0) [0|1] "bit"  AC
+ SG_ NWM_Wakeup : 31|8@0+ (1,0) [0|255] "bit"  AC
+ SG_ NWM_Staywake_reasons : 39|32@0+ (1,0) [0|4294967295] "bit"  AC
+ SG_ NWM_AWB : 12|1@0+ (1,0) [0|1] "bit"  AC
+ SG_ NWM_Address : 7|8@0+ (1,0) [0|127] "bit"  AC
+
+BO_ 1676 CCP_ACResp: 8 AC
+ SG_ CCP_Resp : 7|64@0+ (1,0) [0|0] ""  CCPTester
+
+BO_ 1677 CCP_TesterReq: 8 CCPTester
+ SG_ CCP_Req : 7|64@0+ (1,0) [0|0] ""  AC
+
+BO_ 134 EMS_EngineStatus: 8 GW
+ SG_ EMS_ACStatus : 48|1@0+ (1,0) [0|1] "bit"  AC
+
+BO_ 677 MMI_AC_Command: 8 GW
+ SG_ MMI_RCPSet : 30|2@0+ (1,0) [0|3] "bit"  AC
+ SG_ MMI_RightSetTemp : 36|5@0+ (0.5,17) [17.5|31.5] "℃"  AC
+ SG_ MMI_LeftSetTemp : 28|5@0+ (0.5,17) [17.5|31.5] "℃"  AC
+ SG_ MMI_RearKeyLockSet : 23|2@0+ (1,0) [0|3] "bit"  AC
+ SG_ MMI_AirConditionerPowerKey : 20|1@0+ (1,0) [0|1] "bit"  AC
+ SG_ MMI_AirDistributionModeReq : 18|3@0+ (1,0) [0|7] "bit"  AC
+ SG_ MMI_IONIZERKey : 15|1@0+ (1,0) [0|1] "bit"  AC
+ SG_ MMI_DualKey : 13|1@0+ (1,0) [0|1] "bit"  AC
+ SG_ MMI_BlowerFanLevel : 11|4@0+ (1,0) [0|15] "bit"  AC
+ SG_ MMI_AcKey : 7|1@0+ (1,0) [0|1] "bit"  AC
+ SG_ MMI_AqsKey : 6|1@0+ (1,0) [0|1] "bit"  AC
+ SG_ MMI_FreshReciKey : 5|1@0+ (1,0) [0|1] "bit"  AC
+ SG_ MMI_FrontDefrostKey : 3|1@0+ (1,0) [0|1] "bit"  AC
+ SG_ MMI_MaxAcKey : 2|1@0+ (1,0) [0|1] "bit"  AC
+ SG_ MMI_AC_OnKey : 1|1@0+ (1,0) [0|1] "bit"  AC
+ SG_ MMI_AutoKey : 0|1@0+ (1,0) [0|1] "bit"  AC
+
+BO_ 753 AC_ReqSts: 8 AC
+ SG_ AC_InsideTemperatureInvalid : 7|1@0+ (1,0) [0|1] "bit" Vector__XXX
+ SG_ AC_InsideTemperature : 55|8@0+ (0.5,-40) [-40|87] "°C" Vector__XXX
+ SG_ AC_SSM_StartReq : 3|1@0+ (1,0) [0|1] "bit" Vector__XXX
+ SG_ AC_SSM_Allowance : 2|1@0+ (1,0) [0|1] "bit" Vector__XXX
+ SG_ AC_ACCompReq : 0|1@0+ (1,0) [0|1] "bit"  GW
+ SG_ AC_AmbientTemperatureInvalid : 1|1@0+ (1,0) [0|1] "bit"  GW,BCM,PTG
+ SG_ AC_ACCompReqInvalid : 4|1@0+ (1,0) [0|1] "bit"  GW
+ SG_ AC_FanStatus : 5|1@0+ (1,0) [0|1] "bit"  GW
+ SG_ AC_AmbientTemperature : 15|8@0+ (0.5,-40) [-40|60] "°C"  GW,BCM,PTG
+ SG_ AC_PM25InDen : 23|12@0+ (1,0) [0|4095] "ug/m^3"  GW
+ SG_ AC_PM25OutDen : 27|12@0+ (1,0) [0|4095] "ug/m^3"  GW
+ SG_ AC_AirInQLevel : 42|3@0+ (1,0) [0|7] "bit"  GW
+ SG_ AC_AirOutQLevel : 45|3@0+ (1,0) [0|7] "bit"  GW
+ SG_ AC_PM25Sts : 47|2@0+ (1,0) [0|3] "bit"  GW
+
+BO_ 754 AC_Status_Info: 8 AC
+ SG_ AC_AutoState : 0|1@0+ (1,0) [0|1] "bit" Vector__XXX
+ SG_ AC_DisplayActive : 1|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ AC_RCPState : 7|1@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ AC_MaxAcState : 2|1@0+ (1,0) [0|1] "bit"  GW
+ SG_ AC_FrontDefrostState : 3|1@0+ (1,0) [0|1] "bit" Vector__XXX
+ SG_ AC_IntakeAirState : 5|2@0+ (1,0) [0|3] "bit"  GW
+ SG_ AC_AqsState : 6|1@0+ (1,0) [0|1] "bit"  GW
+ SG_ AC_BlowerLevel : 11|4@0+ (1,0) [0|15] "bit"  GW
+ SG_ AC_DualState : 13|1@0+ (1,0) [0|1] "bit"  GW
+ SG_ AC_IONIZERState : 15|2@0+ (1,0) [0|3] "bit"  GW
+ SG_ AC_AirDistributionMode : 18|3@0+ (1,0) [0|7] "bit"  GW
+ SG_ AC_OnState : 20|1@0+ (1,0) [0|1] "bit"  GW
+ SG_ AC_RearKeyLockSts : 22|1@0+ (1,0) [0|1] "bit"  GW
+ SG_ AC_LeftSetTemperature : 28|5@0+ (0.5,17) [17.5|31.5] "℃"  GW
+ SG_ AC_AirCleanState : 31|1@0+ (1,0) [0|1] "bit"  GW
+ SG_ AC_RightSetTemperature : 36|5@0+ (0.5,17) [17.5|31.5] "℃"  GW
+ SG_ AC_RemoteControlSt : 39|1@0+ (1,0) [0|1] "bit"  GW
+
+BO_ 1030 NWM_AC: 8 AC
+ SG_ AC_Staywake_reasons : 39|32@0+ (1,0) [0|4294967295] "bit"  NMNode
+ SG_ AC_Address : 7|8@0+ (1,0) [0|127] "bit"  NMNode
+ SG_ AC_RMR : 8|1@0+ (1,0) [0|1] "bit"  NMNode
+ SG_ AC_AWB : 12|1@0+ (1,0) [0|1] "bit"  NMNode
+ SG_ AC_NMSts : 24|1@0+ (1,0) [0|1] "bit"  NMNode
+ SG_ AC_Wakeup_reasons : 23|8@0+ (1,0) [0|255] "bit"  NMNode
+
+BO_ 482 PEPS_Message_Sts: 8 BCM
+ SG_ PEPS_RKE_RemoteACControl : 19|2@0+ (1,0) [0|3] "bit"  AC
+ SG_ PEPS_PowerModeValidity : 1|2@0+ (1,0) [0|3] "bit"  GW,BCM,AC,PTG
+ SG_ PEPS_PowerMode : 4|3@0+ (1,0) [0|7] "bit"  GW,BCM,AC,PTG
+ SG_ PEPS_RemoteControlSt : 7|1@0+ (1,0) [0|1] "bit"  GW,BCM,AC
+
+BO_ 496 BCM_LightChimeReq: 8 BCM
+ SG_ BCM_SolarRightSens_ADValue : 39|8@0+ (4.01575,0) [0|1020.0005] "W/m2"  AC
+ SG_ BCM_SolarLeftSens_ADValue : 47|8@0+ (4.01575,0) [0|1020.0005] "W/m2"  AC
+
+BO_ 133 EMS_EngineRPM: 8 GW
+ SG_ EMS_SSMStatus : 42|3@0+ (1,0) [0|7] "bit"  AC
+ SG_ EMS_EngineSpeedRPM : 23|16@0+ (0.25,0) [0|16383.5] "RPM"  AC,BCM
+ SG_ EMS_EngineSpeedRPMInvalid : 44|1@0+ (1,0) [0|1] "bit"  AC
+ SG_ EMS_EngStatus : 47|3@0+ (1,0) [0|7] "bit"  AC,BCM,PTG
+
+BO_ 648 EMS_EngineDriverInfo: 8 GW
+ SG_ EMS_EngineCoolantTemperature : 7|8@0+ (0.75,-36.8) [-36.8|137.2] "°C"  AC
+ SG_ EMS_EngineCoolantTempInvalid : 8|1@0+ (1,0) [0|1] "bit"  AC
+
+BO_ 293 ESC_Status: 8 GW
+ SG_ ESC_VehicleSpeed : 15|13@0+ (0.05625,0) [0|460.6875] "KPH"  BCM,AC,PTG
+ SG_ ESC_VehicleSpeedInvalid : 18|1@0+ (1,0) [0|1] "bit"  BCM,AC,PTG
+
+BO_ 658 TBOX_RemCon: 8 GW
+ SG_ TBOX_Inquire_PM25 : 10|1@0+ (1,0) [0|1] "bit"  AC
+ SG_ TBOX_AirCleanerReq : 12|2@0+ (1,0) [0|3] "bit"  AC
+ SG_ TBOX_TempReq : 28|5@0+ (0.5,17) [17.5|31.5] "℃"  AC
+ SG_ TBOX_AirConditionerReq : 31|2@0+ (1,0) [0|3] "bit"  AC
+
+BO_ 1990 AC_DiagReq: 8 GW
+ SG_ AC_Physical_Diagnostic_Rx : 7|64@0+ (1,0) [0|0] ""  AC
+
+BO_ 2015 Func_DiagReq: 8 GW
+ SG_ Tester_FunAddressingReq : 7|64@0+ (1,0) [0|0] ""  AC
+
+BO_ 1998 AC_DiagResp: 8 AC
+ SG_ AC_Physical_Diagnostic_Tx : 7|64@0+ (1,0) [0|0] ""  NMNode,DigTester
+
+BO_TX_BU_ 1990 : DigTester,GW;
+BO_TX_BU_ 2015 : DigTester,GW;
+
+
+CM_ "bit rate = 500K";
+CM_ BO_ 677 "该路由报文为事件周期型，正常下报文周期为100ms，当任一按键触发时报文跳变为20ms，连续发送3帧，之后恢复正常报文周期，timeout检查方法如一般周期性报文一致.
+This routing event message is sent by EventPeriodic. The normal message period is 100ms, but it will change to 20 ms for 3 frames if any key is pressed, then it will be back to 100ms., timeout detection  method like normal peroid message";
+CM_ SG_ 677 MMI_RCPSet "当相应的按键操作触发时，MMI将命令请求连续发送3帧，之后恢复到No Press";
+CM_ SG_ 677 MMI_RightSetTemp "当相应的按键操作触发时，MMI将命令请求连续发送3帧，之后恢复到Not set";
+CM_ SG_ 677 MMI_LeftSetTemp "当相应的按键操作触发时，MMI将命令请求连续发送3帧，之后恢复到Not set";
+CM_ SG_ 677 MMI_RearKeyLockSet "当相应的按键操作触发时，MMI将命令请求连续发送3帧，之后恢复到No Request";
+CM_ SG_ 677 MMI_AirConditionerPowerKey "当相应的按键操作触发时，MMI将命令请求连续发送3帧，之后恢复到No Press";
+CM_ SG_ 677 MMI_AirDistributionModeReq "当相应的按键操作触发时，MMI将命令请求连续发送3帧，之后恢复到Not set";
+CM_ SG_ 677 MMI_IONIZERKey "当相应的按键操作触发时，MMI将命令请求连续发送3帧，之后恢复到No Press";
+CM_ SG_ 677 MMI_DualKey "当相应的按键操作触发时，MMI将命令请求连续发送3帧，之后恢复到No Press";
+CM_ SG_ 677 MMI_BlowerFanLevel "当相应的按键操作触发时，MMI将命令请求连续发送3帧，之后恢复到Not set";
+CM_ SG_ 677 MMI_AcKey "当相应的按键操作触发时，MMI将命令请求连续发送3帧，之后恢复到No Press";
+CM_ SG_ 677 MMI_AqsKey "当相应的按键操作触发时，MMI将命令请求连续发送3帧，之后恢复到No Press";
+CM_ SG_ 677 MMI_FreshReciKey "当相应的按键操作触发时，MMI将命令请求连续发送3帧，之后恢复到No Press";
+CM_ SG_ 677 MMI_MaxAcKey "当相应的按键操作触发时，MMI将命令请求连续发送3帧，之后恢复到No Press";
+CM_ SG_ 677 MMI_AutoKey "当相应的按键操作触发时，MMI将命令请求连续发送3帧，之后恢复到No Press";
+CM_ SG_ 753 AC_SSM_StartReq "（启停系统使用）";
+CM_ SG_ 753 AC_SSM_Allowance "（启停系统使用）";
+CM_ SG_ 753 AC_ACCompReq "HVAC请求信号开关压缩机离合";
+CM_ SG_ 753 AC_ACCompReqInvalid "采用三态压力开关不需要；采用压力传感器需要";
+CM_ SG_ 753 AC_AirInQLevel "0x0: Level 1 PM2.5<35
+0x1: Level 2 PM2.5<75 And PM2.5≥35
+0x2: Level 3 PM2.5<115 And PM2.5≥75
+0x3: Level 4 PM2.5<150 And PM2.5≥115
+0x4: Level 5 PM2.5<250 And PM2.5≥150
+0x5: Level 6 PM2.5<999 And PM2.5≥250";
+CM_ SG_ 753 AC_AirOutQLevel "0x0: Level 1 PM2.5<35
+0x1: Level 2 PM2.5<75 And PM2.5≥35
+0x2: Level 3 PM2.5<115 And PM2.5≥75
+0x3: Level 4 PM2.5<150 And PM2.5≥115
+0x4: Level 5 PM2.5<250 And PM2.5≥150
+0x5: Level 6 PM2.5<999 And PM2.5≥250";
+CM_ BO_ 133 "该路由报文是以10ms周期发送的事件报文，timeout检查方法如一般周期性报文一致.
+This routing event message is sent by 10ms cycle, timeout detection  method like normal peroid message";
+CM_ SG_ 133 EMS_SSMStatus "（启停系统使用）";
+CM_ BO_ 648 "该路由报文是以100ms周期发送的事件报文，timeout检查方法如一般周期性报文一致.
+This routing event message is sent by 100ms cycle, timeout detection  method like normal peroid message";
+CM_ BO_ 293 "该路由报文是以20ms周期发送的事件报文，timeout检查方法如一般周期性报文一致.
+This routing event message is sent by 20ms cycle, timeout detection  method like normal peroid message";
+CM_ SG_ 293 ESC_VehicleSpeed "此信号适用于ESC配置";
+CM_ SG_ 293 ESC_VehicleSpeedInvalid "此信号适用于ESC配置";
+CM_ BO_ 658 "该路由报文是以100ms周期发送的事件报文，timeout检查方法如一般周期性报文一致.
+This routing event message is sent by 100ms cycle, timeout detection  method like normal peroid message";
+CM_ SG_ 658 TBOX_Inquire_PM25 "当相应命令触发时，TBOX将命令请求连续发送3帧，之后恢复到No inquire";
+CM_ SG_ 658 TBOX_AirCleanerReq "当相应命令触发时，TBOX将命令请求连续发送3帧，之后恢复到No Request";
+CM_ SG_ 658 TBOX_TempReq "当相应命令触发时，TBOX将命令请求连续发送3帧，之后恢复到Not set";
+CM_ SG_ 658 TBOX_AirConditionerReq "当相应命令触发时，TBOX将命令请求连续发送3帧，之后恢复到No Request";
+BA_DEF_  "NmMessageCount" INT 1 256;
+BA_DEF_  "NmBaseAddress" HEX 1024 1279;
+BA_DEF_ SG_  "GenSigStartValue" INT 0 65535;
+BA_DEF_ SG_  "GenSigInactiveValue" INT 0 65535;
+BA_DEF_ SG_  "GenSigSendType" ENUM  "NoSigSendType","OnWrite","OnWriteWithRepetition","OnChange","OnChangeWithRepetition","IfActive","IfActiveWithRepetition";
+BA_DEF_ SG_  "GenSigTimeoutValue" INT 0 65535;
+BA_DEF_ BO_  "GenMsgILSupport" ENUM  "No","Yes";
+BA_DEF_ BO_  "GenMsgSendType" ENUM  "NoMsgSendType","Cyclic","vector_leerstring";
+BA_DEF_ BO_  "GenMsgCycleTime" INT 0 65535;
+BA_DEF_ BO_  "GenMsgCycleTimeFast" INT 0 65535;
+BA_DEF_ BO_  "GenMsgNrOfRepetition" INT 0 65535;
+BA_DEF_ BO_  "GenMsgDelayTime" INT 0 65535;
+BA_DEF_ BO_  "GenMsgStartDelayTime" INT 0 65535;
+BA_DEF_ BO_  "ILTxTimeout" INT 0 65535;
+BA_DEF_ BO_  "NmMessage" ENUM  "No","Yes";
+BA_DEF_ BO_  "DiagResp" ENUM  "No","Yes";
+BA_DEF_ BO_  "DiagReqPhy" ENUM  "No","Yes";
+BA_DEF_ BO_  "DiagReqFun" ENUM  "No","Yes";
+BA_DEF_ BO_  "ILRxTimeout" INT 0 65535;
+BA_DEF_ BO_  "CcpMessage" ENUM  "No","Yes";
+BA_DEF_ BU_  "CANoeStartDelay" INT 0 0;
+BA_DEF_ BU_  "CANoeDrift" INT 0 0;
+BA_DEF_ BU_  "CANoeJitterMin" INT 0 0;
+BA_DEF_ BU_  "CANoeJitterMax" INT 0 0;
+BA_DEF_ BU_  "ECU" STRING ;
+BA_DEF_ BU_  "NodeLayerModules" STRING ;
+BA_DEF_ BU_  "ILUsed" ENUM  "No","Yes";
+BA_DEF_ BU_  "BitOrder" ENUM  "LSB","MSB";
+BA_DEF_  "BusType" STRING ;
+BA_DEF_  "DBName" STRING ;
+BA_DEF_DEF_  "NmMessageCount" 1;
+BA_DEF_DEF_  "NmBaseAddress" 1024;
+BA_DEF_DEF_  "GenSigStartValue" 0;
+BA_DEF_DEF_  "GenSigInactiveValue" 0;
+BA_DEF_DEF_  "GenSigSendType" "NoSigSendType";
+BA_DEF_DEF_  "GenSigTimeoutValue" 0;
+BA_DEF_DEF_  "GenMsgILSupport" "No";
+BA_DEF_DEF_  "GenMsgSendType" "Cyclic";
+BA_DEF_DEF_  "GenMsgCycleTime" 0;
+BA_DEF_DEF_  "GenMsgCycleTimeFast" 0;
+BA_DEF_DEF_  "GenMsgNrOfRepetition" 0;
+BA_DEF_DEF_  "GenMsgDelayTime" 0;
+BA_DEF_DEF_  "GenMsgStartDelayTime" 0;
+BA_DEF_DEF_  "ILTxTimeout" 0;
+BA_DEF_DEF_  "NmMessage" "No";
+BA_DEF_DEF_  "DiagResp" "No";
+BA_DEF_DEF_  "DiagReqPhy" "No";
+BA_DEF_DEF_  "DiagReqFun" "No";
+BA_DEF_DEF_  "ILRxTimeout" 0;
+BA_DEF_DEF_  "CcpMessage" "No";
+BA_DEF_DEF_  "CANoeStartDelay" 0;
+BA_DEF_DEF_  "CANoeDrift" 0;
+BA_DEF_DEF_  "CANoeJitterMin" 0;
+BA_DEF_DEF_  "CANoeJitterMax" 0;
+BA_DEF_DEF_  "ECU" "";
+BA_DEF_DEF_  "NodeLayerModules" "";
+BA_DEF_DEF_  "ILUsed" "No";
+BA_DEF_DEF_  "BitOrder" "LSB";
+BA_DEF_DEF_  "BusType" "";
+BA_DEF_DEF_  "DBName" "";
+BA_ "NmMessageCount" 128;
+BA_ "BusType" "CAN";
+BA_ "DBName" "Geely_VF11_V11";
+BA_ "GenMsgSendType" BO_ 1024 0;
+BA_ "DiagReqFun" BO_ 1024 0;
+BA_ "CcpMessage" BO_ 1676 1;
+BA_ "GenMsgSendType" BO_ 1676 0;
+BA_ "CcpMessage" BO_ 1677 1;
+BA_ "GenMsgSendType" BO_ 1677 0;
+BA_ "GenMsgCycleTime" BO_ 134 10;
+BA_ "GenMsgILSupport" BO_ 134 1;
+BA_ "GenMsgCycleTime" BO_ 677 100;
+BA_ "GenMsgILSupport" BO_ 677 1;
+BA_ "ILTxTimeout" BO_ 677 5000;
+BA_ "GenMsgDelayTime" BO_ 753 0;
+BA_ "GenMsgCycleTime" BO_ 753 100;
+BA_ "GenMsgILSupport" BO_ 753 1;
+BA_ "ILTxTimeout" BO_ 753 5000;
+BA_ "GenMsgCycleTime" BO_ 754 100;
+BA_ "GenMsgILSupport" BO_ 754 1;
+BA_ "ILTxTimeout" BO_ 754 5000;
+BA_ "GenMsgSendType" BO_ 1030 0;
+BA_ "DiagReqFun" BO_ 1030 0;
+BA_ "GenMsgCycleTime" BO_ 482 20;
+BA_ "GenMsgILSupport" BO_ 482 1;
+BA_ "ILTxTimeout" BO_ 482 5000;
+BA_ "GenMsgCycleTime" BO_ 496 50;
+BA_ "GenMsgILSupport" BO_ 496 1;
+BA_ "ILTxTimeout" BO_ 496 5000;
+BA_ "GenMsgCycleTime" BO_ 133 10;
+BA_ "GenMsgILSupport" BO_ 133 1;
+BA_ "ILTxTimeout" BO_ 133 5000;
+BA_ "GenMsgCycleTime" BO_ 648 100;
+BA_ "GenMsgILSupport" BO_ 648 1;
+BA_ "ILTxTimeout" BO_ 648 5000;
+BA_ "GenMsgCycleTime" BO_ 293 20;
+BA_ "GenMsgILSupport" BO_ 293 1;
+BA_ "ILTxTimeout" BO_ 293 5000;
+BA_ "GenMsgCycleTime" BO_ 658 100;
+BA_ "GenMsgILSupport" BO_ 658 1;
+BA_ "ILTxTimeout" BO_ 658 5000;
+BA_ "DiagReqPhy" BO_ 1990 1;
+BA_ "DiagReqFun" BO_ 2015 1;
+BA_ "DiagResp" BO_ 1998 1;
+BA_ "GenSigStartValue" SG_ 753 AC_InsideTemperature 120;
+BA_ "GenSigStartValue" SG_ 753 AC_AmbientTemperature 120;
+BA_ "GenSigStartValue" SG_ 753 AC_PM25InDen 4095;
+BA_ "GenSigStartValue" SG_ 753 AC_PM25OutDen 4095;
+BA_ "GenSigStartValue" SG_ 753 AC_AirInQLevel 7;
+BA_ "GenSigStartValue" SG_ 753 AC_AirOutQLevel 7;
+BA_ "GenSigStartValue" SG_ 754 AC_LeftSetTemperature 10;
+BA_ "GenSigStartValue" SG_ 754 AC_RightSetTemperature 10;
+BA_ "GenSigStartValue" SG_ 648 EMS_EngineCoolantTemperature 91;
+BA_ "GenSigStartValue" SG_ 648 EMS_EngineCoolantTempInvalid 0;
+VAL_ 753 AC_SSM_StartReq 1 "Auto start request" 0 "No request" ;
+VAL_ 753 AC_SSM_Allowance 1 "Prohibit engine auto stop" 0 "Allowance engine auto stop" ;
+VAL_ 753 AC_ACCompReq 1 "AC Compress Req ON" 0 "AC Compress Req OFF" ;
+VAL_ 753 AC_ACCompReqInvalid 1 "Invalid" 0 "Valid" ;
+VAL_ 753 AC_AirInQLevel 7 "Invalid" 6 "Reserved" 5 "Level 6" 4 "Level 5" 3 "Level 4" 2 "Level 3" 1 "Level 2" 0 "Level 1" ;
+VAL_ 753 AC_AirOutQLevel 7 "Invalid" 6 "Reserved" 5 "Level 6" 4 "Level 5" 3 "Level 4" 2 "Level 3" 1 "Level 2" 0 "Level 1" ;
+VAL_ 753 AC_PM25Sts 3 "Error" 2 "Complete" 1 "Collecting" 0 "Initial" ;
+VAL_ 754 AC_AirDistributionMode 7 "Invalid" 6 "Reserved" 5 "Reserved" 4 "Screen" 3 "Foot Screen" 2 "Foot" 1 "Foot face" 0 "Face" ;
+VAL_ 754 AC_RemoteControlSt 1 "Remote control mode" 0 "Not Remote control mode" ;
+
