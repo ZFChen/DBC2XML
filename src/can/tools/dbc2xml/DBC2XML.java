@@ -23,6 +23,7 @@ import org.xml.sax.helpers.AttributesImpl;
 
 public class DBC2XML {
 	
+	/* 枚举类型  */
 	public enum DataType {
 		NETWORK_NODE("BU_:"),
 		MESSAGE("BO_"),
@@ -75,6 +76,7 @@ public class DBC2XML {
 
 	public ArrayList<Nodes> read(){
 		FileReader fr = null;
+		DataType dataType  = null;
 		ArrayList<Nodes> nodes = new ArrayList<>();
 		
 		try{
@@ -85,26 +87,42 @@ public class DBC2XML {
 		}
 		
 		Scanner sr = new Scanner(fr);
-		String str = sr.nextLine();
+		String str = null;
 		int message_index = 0;
-		while(null != str){
-			String[] sb = str.split("\\s+");
-			DataType dataType = DataType.fromString(sb[0]);
+		while(sr.hasNextLine()){
+			str = sr.nextLine();
+			String[] sb = str.split("\\s+"); //用一个或多个空格符对字符串进行分割
 			
-			if(null != dataType) {
-				if(' ' != str.charAt(0)) { //以非空格开头的行
+			if(sb[0].equals("") && (sb.length <= 1))//匹配到空行，则跳过
+				continue;
+			
+//			for (String s : sb) {
+//				System.out.print(s+"|"); 
+//			}
+//			System.out.println();
+//			System.out.println("raw "+sb[0]);
+			if(!sb[0].equals("")) { //以非空格开头的行
+				dataType = DataType.fromString(sb[0]);
+//				System.out.println("non "+sb[0]);
+//				System.out.println(dataType); //signal
+				if(null != dataType) {
 					switch(dataType) {
 						case NETWORK_NODE:
 							for(int i=1; i<sb.length; i++){
 								nodes.add(new Nodes(sb[i])); //设置节点名称
+//								System.out.println("network " + sb[i]); //NETWORK_NODE
 							}
 							break;
 							
 						case MESSAGE:
+							//System.out.println("message name: " + sb[(sb.length-1)]); 
 							for(message_index=0; message_index<nodes.size(); message_index++){
-								if(nodes.get(message_index).getName() == sb[(sb.length-1)]){
+								//判断该message属于哪个CAN节点
+								if(nodes.get(message_index).getName().equals(sb[(sb.length-1)])){
 									nodes.get(message_index).setId(Integer.parseInt(sb[1])); //设置节点ID
-									nodes.get(message_index).setMessages(new Messages(sb[2].substring(0, sb[2].length()-2), Integer.parseInt(sb[3]))); //设置message的名称 和长度(需要去掉后面的":"号)
+									nodes.get(message_index).setMessages(new Messages(sb[2].substring(0, sb[2].length()-1), Integer.parseInt(sb[3]))); //设置message的名称 和长度(需要去掉后面的":"号)
+//									System.out.println("message name: " + sb[2].substring(0, sb[2].length()-1) + " length: " + Integer.parseInt(sb[3])); //message
+									break;
 								}
 							}
 							break;
@@ -112,22 +130,29 @@ public class DBC2XML {
 						default :
 							break;
 					}
-				} else { //以空格开头的行
+				} 
+			} else { //以空格开头的行
+//				System.out.println("space" +sb[1]);
+				dataType = DataType.fromString(sb[1]);
+				if(null != dataType) {
 					switch(dataType) {
 					case SIGNAL:
 						Signal signal = new Signal(sb[2]); //signal_name
+						System.out.println("message name: " + nodes.get(message_index).getMessages().getName() + " signal name: " + sb[2]);
 						signal.setStart_bitAndLengthfromString(sb[4]); //start_bit, length
-						if(nodes.get(message_index).getMessages().getSignals() == null){
-							ArrayList<Signal> al = new ArrayList<>();
-							nodes.get(message_index).getMessages().setSignals(al);
-						} 
+						signal.setFactorandOffset(str); //factor, offset
+						signal.setUnitfromString(str);
+						ArrayList<Signal> al = new ArrayList<>();
+						nodes.get(message_index).getMessages().setSignals(al);
 						nodes.get(message_index).getMessages().getSignals().add(signal);
 						break;
 						
 					case ATTRIBUTE:
+						//System.out.println("attribute "); //signal
 						break;
 					
 					case VALUE_TABLE:
+						//System.out.println("value table "); //signal
 						break;
 						
 					default :
@@ -135,9 +160,8 @@ public class DBC2XML {
 					}
 				} 
 			}
-			
-			str = sr.nextLine();
 		}
+		sr.close();
 		return nodes;
 	}
 	
