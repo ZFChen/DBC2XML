@@ -88,6 +88,23 @@ public class TestUint {
 //			}
 		}
 		sr.close();*/
+//		ArrayList<String> al = new ArrayList<>();
+//        String regx = "((?<=\\s\").*?(?=\"))|(\\w+)";
+//		String strs = "say \"hello world\"";
+//		String str = "VAL_ 753 AC_ACCompReq 1 \"AC Compress Req ON\" 0 \"AC Compress Req OFF\" ;";
+//		Pattern pattern = Pattern.compile(regx);  
+//		Matcher matcher = pattern.matcher(str);
+//		while(matcher.find()){
+//			String s = matcher.group();
+//			System.out.println(s);
+//			al.add(s);
+//		}
+//		System.out.println("signal name: " + al.get(2));
+//		System.out.println("signal length: " + al.size());
+//		int a = (al.size()-3)/2;
+//		for(int i=0; i<a; i++){
+//			System.out.println( al.get(2*i+3) +": "+al.get(2*i+4));
+//		}
 	}
 
 }
